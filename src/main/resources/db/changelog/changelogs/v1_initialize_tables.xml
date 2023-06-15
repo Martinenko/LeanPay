@@ -1,0 +1,33 @@
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.1.xsd">
+
+    <changeSet id="1.0" author="ivan.martinenko">
+        <comment>Initializing tables</comment>
+        <createTable tableName="loan_calculation">
+            <column name = "id" type = "bigint">
+                <constraints primaryKey = "true"
+                             unique = "true"
+                             nullable = "false"/>
+            </column>
+            <column name = "created_at" type = "datetime"/>
+            <column name = "loan_amount" type = "decimal"/>
+            <column name = "annual_interest_percentage" type = "decimal"/>
+            <column name = "number_of_months" type = "smallint"/>
+            <column name = "monthly_payment" type = "decimal"/>
+            <column name = "total_interest_paid" type = "decimal"/>
+        </createTable>
+        <createIndex tableName = "loan_calculation" indexName = "loan_amount-annaul_interest_percentage-monthly_payment">
+            <column name = "loan_amount"/>
+            <column name = "annual_interest_percentage"/>
+            <column name = "monthly_payment"/>
+        </createIndex>
+        <createTable tableName = "loan_calculation_seq">
+            <column name = "next_val" type = "smallint"/>
+        </createTable>
+        <sql dbms="mysql">
+            INSERT INTO loan_calculation_seq (next_val) VALUES (1);
+        </sql>
+    </changeSet>
+</databaseChangeLog>
